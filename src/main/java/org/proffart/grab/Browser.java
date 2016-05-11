@@ -39,6 +39,18 @@ public class Browser {
     }
 
     public String getMyIp() {
+        driver.get("http://www.howtofindmyipaddress.com/");
+
+        WebElement text = driver.findElement(By.xpath("/html/body/center/div/font/table/tbody/tr[2]/td[1]/font/span[2]"));
+        if( text != null ) {
+            return text.getText();
+        }
+
+        return "";
+    }
+
+    public void test_() {
+
         driver.get("https://www.google.com/search?q=my+ip");
 
         WebElement captcha = driver.findElement(By.xpath("/html/body/div/img"));
@@ -53,7 +65,7 @@ public class Browser {
 
         waite(50);
 
-        return "";
+
     }
 
     public void waite(final int second) {
