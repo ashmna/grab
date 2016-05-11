@@ -4,7 +4,7 @@ public class App {
 
     public static void main(String arg[]) {
 
-        Browser browser = new Browser("178.32.218.104", "3128");
+        Browser browser = new Browser("104.156.253.208", "3128");
 
         Log.instance.info(browser.getMyIp());
         browser.waite(10);

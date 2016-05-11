@@ -39,9 +39,9 @@ public class Browser {
     }
 
     public String getMyIp() {
-        driver.get("http://www.howtofindmyipaddress.com/");
+        driver.get("https://api.ipify.org/");
 
-        WebElement text = driver.findElement(By.xpath("/html/body/center/div/font/table/tbody/tr[2]/td[1]/font/span[2]"));
+        WebElement text = driver.findElement(By.xpath("/html/body"));
         if( text != null ) {
             return text.getText();
         }
