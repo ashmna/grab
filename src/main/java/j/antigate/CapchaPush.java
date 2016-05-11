@@ -1,10 +1,6 @@
 package j.antigate;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.regex.Matcher;
@@ -15,7 +11,7 @@ public class CapchaPush {
     static String capchaId;
     static String capcha;
 
-    public static void responseCapcha() throws UnsupportedEncodingException, IOException, InterruptedException {
+    public static void responseCapcha() throws IOException, InterruptedException {
         URL url1 = new URL("http://anti-captcha.com/res.php?key=" + CapchaBypass.api + "&action=get&id=" + capchaId);
         URLConnection con1 = url1.openConnection();
         Pattern p1 = Pattern.compile("text/html;\\s+charset=([^\\s]+)\\s*");
@@ -45,7 +41,7 @@ public class CapchaPush {
         }
     }
 
-    public static String pushToServer(String data) throws UnsupportedEncodingException, IOException, InterruptedException {
+    public static String pushToServer(String data) throws IOException, InterruptedException {
         URL url = new URL("http://anti-captcha.com/in.php");
         URLConnection con = url.openConnection();
         con.setDoOutput(true);

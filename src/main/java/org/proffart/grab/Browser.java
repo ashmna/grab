@@ -47,7 +47,7 @@ public class Browser {
             if ("Please enable images".equals(alt)) {
                 Log.instance.info("this is captcha ura !!!");
                 String text = CaptchaSolver.solver(getCaptchaImage(captcha));
-                Log.instance.info("!!!! "+ text+" !!!!");
+                Log.instance.info("!!!! " + text + " !!!!");
             }
         }
 
