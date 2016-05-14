@@ -12,4 +12,3 @@ public class App {
     }
 
 }
-//body > div:nth-child(1) > img:nth-child(5)

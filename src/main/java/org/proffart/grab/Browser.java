@@ -76,6 +76,10 @@ public class Browser {
         }
     }
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+
     public void close() {
         driver.quit();
     }
