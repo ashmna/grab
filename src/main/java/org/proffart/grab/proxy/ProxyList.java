@@ -14,11 +14,11 @@ import java.util.Scanner;
 public class ProxyList {
 
     private String filePath;
-    private ArrayList<Proxy> proxies;
+    private ArrayList<Proxy> proxies = new ArrayList<Proxy>();
     private int currentIndex = -1;
 
-    public ProxyList(String filePath) {
-        filePath = filePath;
+    public ProxyList(final String filePath) {
+        this.filePath = filePath;
     }
 
     public void read() {
@@ -38,11 +38,21 @@ public class ProxyList {
     }
 
     public Proxy getNext() {
-        currentIndex = currentIndex == size() ? 0 : currentIndex++;
+        if (currentIndex == size() - 1) {
+            currentIndex = 0;
+        } else {
+            ++currentIndex;
+        }
         return proxies.get(currentIndex);
     }
 
-    private void addProxy(String s) {
+    private void addProxy(final String s) {
+        if (s == null) {
+            return;
+        }
+        if (s.isEmpty()) {
+            return;
+        }
         String[] str = s.split(":");
         Proxy proxy = new Proxy();
         proxy.setHost(str[0]);

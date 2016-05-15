@@ -11,15 +11,13 @@ import java.io.InputStream;
 
 public class CaptchaSolver {
 
-    public static String solver(final BufferedImage image) {
+    public String solver(final BufferedImage image) {
         try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             ImageIO.write(image, "png", os);
             InputStream is = new ByteArrayInputStream(os.toByteArray());
             return CapchaBypass.CapchaAnswer(is, Constants.ANTI_CAPTCHA_KEY, null, null, null);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

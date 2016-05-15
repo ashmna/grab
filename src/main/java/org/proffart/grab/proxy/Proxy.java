@@ -15,7 +15,7 @@ public class Proxy {
         return host;
     }
 
-    public void setHost(String host) {
+    public void setHost(final String host) {
         this.host = host;
     }
 
@@ -23,7 +23,7 @@ public class Proxy {
         return port;
     }
 
-    public void setPort(String port) {
+    public void setPort(final String port) {
         this.port = port;
     }
 }

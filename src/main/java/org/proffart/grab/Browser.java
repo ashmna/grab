@@ -2,8 +2,11 @@ package org.proffart.grab;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,6 +23,9 @@ public class Browser {
     }
 
     public Browser(final String host, final String port) {
+//        FirefoxProfile profile = new FirefoxProfile();
+//        profile.setPreference("plugin.state.flash", 0);
+
         if (host != null && port != null) {
             String PROXY = host + ":" + port;
 
@@ -42,7 +48,7 @@ public class Browser {
         driver.get("https://api.ipify.org/");
 
         WebElement text = driver.findElement(By.xpath("/html/body"));
-        if( text != null ) {
+        if (text != null) {
             return text.getText();
         }
 
@@ -58,21 +64,44 @@ public class Browser {
             String alt = captcha.getAttribute("alt");
             if ("Please enable images".equals(alt)) {
                 Log.instance.info("this is captcha ura !!!");
-                String text = CaptchaSolver.solver(getCaptchaImage(captcha));
+                CaptchaSolver captchaSolver = new CaptchaSolver();
+                String text = captchaSolver.solver(getCaptchaImage(captcha));
                 Log.instance.info("!!!! " + text + " !!!!");
             }
         }
 
-        waite(50);
+        waitSecond(50);
 
 
     }
 
-    public void waite(final int second) {
+    public void waitSecond(final int second) {
         try {
             Thread.sleep(second * 1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void waitForLoad() {
+        waitSecond(1);
+        new WebDriverWait(driver, 30).until((ExpectedCondition<Boolean>) wd ->
+                ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
+    }
+
+    public void checkCaptcha() {
+        if (driver.findElements(By.id("captchaImg")).size() == 1
+                && driver.findElements(By.id("captchaKey")).size() == 1) {
+            Log.instance.info("captcha detected");
+            waitSecond(4);
+            WebElement captchaImg = driver.findElement(By.id("captchaImg"));
+            WebElement captchaKey = driver.findElement(By.id("captchaKey"));
+            CaptchaSolver captchaSolver = new CaptchaSolver();
+            String text = captchaSolver.solver(getCaptchaImage(captchaImg));
+            Log.instance.info("captcha solver [" + text + "]");
+            captchaKey.sendKeys(text);
+            captchaKey.sendKeys(Keys.ENTER);
+            waitForLoad();
         }
     }
 

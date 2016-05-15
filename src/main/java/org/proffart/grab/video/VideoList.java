@@ -1,4 +1,6 @@
-package org.proffart.grab.account;
+package org.proffart.grab.video;
+
+import org.proffart.grab.proxy.Proxy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,16 +10,16 @@ import java.util.Scanner;
 /**
  * team ProffArt
  * author Ashot Mnatsakanyan
- * date 5/14/16
- * time 10:24 PM
+ * date 5/15/16
+ * time 17:00 PM
  */
-public class AccountList {
+public class VideoList {
 
     private String filePath;
-    private ArrayList<Account> accounts = new ArrayList<Account>();
+    private ArrayList<Video> videos = new ArrayList<Video>();
     private int currentIndex = -1;
 
-    public AccountList(final String filePath) {
+    public VideoList(final String filePath) {
         this.filePath = filePath;
     }
 
@@ -25,7 +27,7 @@ public class AccountList {
         try {
             Scanner inFile = new Scanner(new File(filePath)).useDelimiter("\n");
             while (inFile.hasNext()) {
-                addAccount(inFile.next());
+                addVideo(inFile.next());
             }
             inFile.close();
         } catch (FileNotFoundException e) {
@@ -34,29 +36,31 @@ public class AccountList {
     }
 
     public int size() {
-        return accounts.size();
+        return videos.size();
     }
 
-    public Account getNext() {
+    public Video getNext() {
         if (currentIndex == size() - 1) {
             currentIndex = 0;
         } else {
             ++currentIndex;
         }
-        return accounts.get(currentIndex);
+        return videos.get(currentIndex);
     }
 
-    private void addAccount(final String s) {
+    private void addVideo(final String s) {
         if (s == null) {
             return;
         }
         if (s.isEmpty()) {
             return;
         }
-        String[] str = s.split(":");
-        Account account = new Account();
-        account.setLogin(str[0]);
-        account.setPassword(str[1]);
-        accounts.add(account);
+        String[] str = s.split(" ");
+        Video video = new Video();
+
+        video.setUrl(str[0]);
+        video.setSecond(Integer.parseInt(str[1]));
+
+        videos.add(video);
     }
 }

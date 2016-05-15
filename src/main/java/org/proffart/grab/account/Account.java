@@ -14,7 +14,7 @@ public class Account {
         return login;
     }
 
-    public void setLogin(String login) {
+    public void setLogin(final String login) {
         this.login = login;
     }
 
@@ -22,8 +22,14 @@ public class Account {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
+    public String getCode(final String phonePrefix, final String phonePostfix) {
+        final int beginIndex = phonePrefix.trim().replace("+", "").length();
+        final int endIndex = login.length() - phonePostfix.trim().length();
+
+        return login.substring(beginIndex ,endIndex);
+    }
 }

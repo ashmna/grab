@@ -4,9 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <project.version>1.0</project.version>
+        <source.jdk>1.8</source.jdk>
+        <target.jdk>1.8</target.jdk>
+    </properties>
+
     <groupId>grab</groupId>
     <artifactId>video</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${project.version}</version>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -15,5 +22,62 @@
             <version>2.53.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>grab-video</finalName>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.proffart.grab.App</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>cglib-nodep-2.1_3.jar</descriptorRef>
+                        <descriptorRef>commons-codec-1.9.jar</descriptorRef>
+                        <descriptorRef>commons-exec-1.3.jar</descriptorRef>
+                        <descriptorRef>commons-io-2.4.jar</descriptorRef>
+                        <descriptorRef>commons-logging-1.2.jar</descriptorRef>
+                        <descriptorRef>gson-2.3.1.jar</descriptorRef>
+                        <descriptorRef>guava-19.0.jar</descriptorRef>
+                        <descriptorRef>httpclient-4.5.1.jar</descriptorRef>
+                        <descriptorRef>httpcore-4.4.3.jar</descriptorRef>
+                        <descriptorRef>jna-4.1.0.jar</descriptorRef>
+                        <descriptorRef>jna-platform-4.1.0.jar</descriptorRef>
+                        <descriptorRef>netty-3.5.7.Final.jar</descriptorRef>
+                        <descriptorRef>selenium-api-2.53.0.jar</descriptorRef>
+                        <descriptorRef>selenium-chrome-driver-2.53.0.jar</descriptorRef>
+                        <descriptorRef>selenium-edge-driver-2.53.0.jar</descriptorRef>
+                        <descriptorRef>selenium-firefox-driver-2.53.0.jar</descriptorRef>
+                        <descriptorRef>selenium-ie-driver-2.53.0.jar</descriptorRef>
+                        <descriptorRef>selenium-java-2.53.0.jar</descriptorRef>
+                        <descriptorRef>selenium-leg-rc-2.53.0.jar</descriptorRef>
+                        <descriptorRef>selenium-remote-driver-2.53.0.jar</descriptorRef>
+                        <descriptorRef>selenium-safari-driver-2.53.0.jar</descriptorRef>
+                        <descriptorRef>selenium-support-2.53.0.jar</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.5.1</version>
+                    <configuration>
+                        <source>${source.jdk}</source>
+                        <target>${target.jdk}</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
