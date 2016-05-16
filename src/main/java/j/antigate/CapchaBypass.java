@@ -7,11 +7,7 @@ import java.net.URLEncoder;
 
 public class CapchaBypass {
 
-    static String api;
-    static String answer;
-
     public static String CapchaAnswer(InputStream is, String apikey, String words, String regsense, String russian) throws IOException, InterruptedException {
-        api = apikey;
         String base64 = Base64Encoder.encode(is);
 
         String data = URLEncoder.encode("method", "UTF-8") + "=" + URLEncoder.encode("base64", "UTF-8");
@@ -41,8 +37,7 @@ public class CapchaBypass {
                 data += "&" + URLEncoder.encode("is_russian", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
             }
         }
-
-        answer = CapchaPush.pushToServer(data);
-        return answer;
+        CapchaPush capchaPush = new CapchaPush(apikey);
+        return capchaPush.pushToServer(data);
     }
 }

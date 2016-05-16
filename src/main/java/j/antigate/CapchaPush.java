@@ -8,11 +8,16 @@ import java.util.regex.Pattern;
 
 public class CapchaPush {
 
-    static String capchaId;
-    static String capcha;
+    private String capchaId;
+    private String capcha;
+    private String key;
 
-    public static void responseCapcha() throws IOException, InterruptedException {
-        URL url1 = new URL("http://anti-captcha.com/res.php?key=" + CapchaBypass.api + "&action=get&id=" + capchaId);
+    public CapchaPush(String key) {
+        this.key = key;
+    }
+
+    public void responseCapcha() throws IOException, InterruptedException {
+        URL url1 = new URL("http://anti-captcha.com/res.php?key=" + key + "&action=get&id=" + capchaId);
         URLConnection con1 = url1.openConnection();
         Pattern p1 = Pattern.compile("text/html;\\s+charset=([^\\s]+)\\s*");
         Matcher m1 = p1.matcher(con1.getContentType());
@@ -41,7 +46,7 @@ public class CapchaPush {
         }
     }
 
-    public static String pushToServer(String data) throws IOException, InterruptedException {
+    public String pushToServer(String data) throws IOException, InterruptedException {
         URL url = new URL("http://anti-captcha.com/in.php");
         URLConnection con = url.openConnection();
         con.setDoOutput(true);
