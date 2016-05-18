@@ -5,8 +5,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.proffart.grab.Browser;
-import org.proffart.grab.account.Account;
-import org.proffart.grab.proxy.Proxy;
+import org.proffart.grab.domains.Account;
+import org.proffart.grab.domains.Proxy;
+import org.proffart.grab.domains.Video;
 
 /**
  * team ProffArt
@@ -56,7 +57,9 @@ public class WatchVideo {
         handelLoginSubmit();
     }
 
-    public void watchVideo(final String url, final int second) {
+    public void watchVideo(final Video video) {
+        final String url = video.getUrl();
+        final int second = video.getSecond();
         driver.get(url);
         // browser.waitForLoad();
         browser.checkCaptcha();
@@ -68,6 +71,7 @@ public class WatchVideo {
         }
 
         browser.waitSecond(second);
+        account.watched(video);
     }
 
     public void logout() {

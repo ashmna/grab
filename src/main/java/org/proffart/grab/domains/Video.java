@@ -1,4 +1,4 @@
-package org.proffart.grab.video;
+package org.proffart.grab.domains;
 
 /**
  * team ProffArt
@@ -6,10 +6,21 @@ package org.proffart.grab.video;
  * date 5/15/16
  * time 17:00 PM
  */
-public class Video {
+public class Video extends AbstractDomain {
 
     private String url;
     private int second;
+
+    public Video() {
+        super();
+    }
+
+    public Video(final String string) {
+        super(string);
+        String[] str = string.split(" ");
+        url = str[0];
+        second = Integer.parseInt(str[1]);
+    }
 
     public String getUrl() {
         return url;

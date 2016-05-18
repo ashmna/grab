@@ -1,4 +1,7 @@
-package org.proffart.grab.account;
+package org.proffart.grab.domains;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * team ProffArt
@@ -6,9 +9,23 @@ package org.proffart.grab.account;
  * date 5/14/16
  * time 10:22 PM
  */
-public class Account {
+public class Account extends AbstractDomain {
+
     private String login;
     private String password;
+    private Map<Integer, Integer> watchedList;
+
+    public Account() {
+        super();
+        watchedList = new HashMap<Integer, Integer>();
+    }
+
+    public Account(final String string) {
+        super(string);
+        String[] str = string.split(":");
+        login = str[0];
+        password = str[1];
+    }
 
     public String getLogin() {
         return login;
@@ -31,5 +48,13 @@ public class Account {
         final int endIndex = login.length() - phonePostfix.trim().length();
 
         return login.substring(beginIndex ,endIndex);
+    }
+
+    public void watched(Video video) {
+        watchedList.put(video.hashCode(), video.getSecond());
+    }
+
+    public boolean isWatched(Video video) {
+        return watchedList.containsKey(video.hashCode());
     }
 }

@@ -1,4 +1,4 @@
-package org.proffart.grab.proxy;
+package org.proffart.grab.domains;
 
 /**
  * team ProffArt
@@ -6,10 +6,21 @@ package org.proffart.grab.proxy;
  * date 5/14/16
  * time 10:38 PM
  */
-public class Proxy {
+public class Proxy extends AbstractDomain {
 
     private String host;
     private String port;
+
+    public Proxy() {
+        super();
+    }
+
+    public Proxy(final String string) {
+        super(string);
+        String[] str = string.split(":");
+        host = str[0];
+        port = str[1];
+    }
 
     public String getHost() {
         return host;
