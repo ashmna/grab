@@ -37,4 +37,14 @@ public class Video extends AbstractDomain {
     public void setSecond(int second) {
         this.second = second;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Video && url.equals(((Video) obj).url) & second == ((Video) obj).second;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

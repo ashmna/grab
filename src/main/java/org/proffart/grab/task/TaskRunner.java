@@ -40,19 +40,24 @@ public class TaskRunner {
         task.setAccount(account);
         task.login();
         for (Video video : videoList) {
-            if (!account.isWatched(video)) {
-                task.watchVideo(video);
-                --counter;
-                if (counter == 0) {
-                    break;
-                }
-                if (delaySecond > 0) {
-                    try {
-                        Thread.sleep(delaySecond * 1000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+            if (account.isWatched(video)) {
+                continue;
+            }
+
+            task.watchVideo(video);
+
+            if (--counter == 0) {
+                break;
+            }
+
+            if (delaySecond <= 0) {
+                continue;
+            }
+
+            try {
+                Thread.sleep(delaySecond * 1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
         task.logout();

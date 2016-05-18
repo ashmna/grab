@@ -57,4 +57,14 @@ public class Account extends AbstractDomain {
     public boolean isWatched(Video video) {
         return watchedList.containsKey(video.hashCode());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Account && login.equals(((Account) obj).login) & password.equals(((Account) obj).password);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

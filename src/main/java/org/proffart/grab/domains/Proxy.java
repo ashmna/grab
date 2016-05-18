@@ -37,4 +37,14 @@ public class Proxy extends AbstractDomain {
     public void setPort(final String port) {
         this.port = port;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Proxy && host.equals(((Proxy) obj).host) & port.equals(((Proxy) obj).port);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

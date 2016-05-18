@@ -5,7 +5,6 @@ import org.proffart.grab.domains.Proxy;
 import org.proffart.grab.domains.Reader;
 import org.proffart.grab.domains.Video;
 import org.proffart.grab.task.TaskRunner;
-import org.proffart.grab.task.WatchVideo;
 
 import java.util.List;
 
