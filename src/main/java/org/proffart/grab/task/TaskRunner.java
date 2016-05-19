@@ -42,12 +42,12 @@ public class TaskRunner {
             if (accountCount == 0 ) {
                 Log.instance.error("Vahan algorithmt chi ashxatum !!!");
             }
-            while (--accountCount != 0) {
+            while (accountCount-- != 0) {
                 currentAccountIndex++;
                 pool.execute(
                     new WatchHandler(
                         videoList,
-                        accountList.get(currentProxyIndex),
+                        accountList.get(currentAccountIndex),
                         getProxy(),
                         videoList.size(),
                         0

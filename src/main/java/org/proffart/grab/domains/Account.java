@@ -13,11 +13,10 @@ public class Account extends AbstractDomain {
 
     private String login;
     private String password;
-    private Map<Integer, Integer> watchedList;
+    private Map<Integer, Integer> watchedList = new HashMap<Integer, Integer>();
 
     public Account() {
         super();
-        watchedList = new HashMap<Integer, Integer>();
     }
 
     public Account(final String string) {
