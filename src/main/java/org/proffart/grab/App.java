@@ -21,7 +21,7 @@ public class App {
         final List<Video> videoList = videoReader.read("/home/all/Projects/java/grab/videos.txt");
 
         TaskRunner runner = new TaskRunner(proxyList, accountList, videoList);
-        runner.start();
+        runner.startWatching();
     }
 
 }

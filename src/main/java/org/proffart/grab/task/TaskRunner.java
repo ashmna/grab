@@ -1,11 +1,14 @@
 package org.proffart.grab.task;
 
+import org.proffart.grab.Constants;
 import org.proffart.grab.Log;
 import org.proffart.grab.domains.Account;
 import org.proffart.grab.domains.Proxy;
 import org.proffart.grab.domains.Video;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * team ProffArt
@@ -20,14 +23,16 @@ public class TaskRunner {
     private List<Video> videoList;
     private int currentProxyIndex = -1;
     private int currentAccountIndex = -1;
+    private final ExecutorService pool;
 
     public TaskRunner(List<Proxy> proxyList, List<Account> accountList, List<Video> videoList) {
         this.proxyList = proxyList;
         this.accountList = accountList;
         this.videoList = videoList;
+        pool = Executors.newFixedThreadPool(Constants.PARALLEL_BROWSER_COUNT);
     }
 
-    public void start() {
+    public void startWatching() {
         double time = 0;
         int accountCount;
 
@@ -35,14 +40,23 @@ public class TaskRunner {
             waitSecond((int) (time * 500));
             accountCount = viewNum(time, accountList.size());
             if (accountCount == 0 ) {
-                Log.instance.error("Vahan algoritmt chi ashxatum !!!");
+                Log.instance.error("Vahan algorithmt chi ashxatum !!!");
             }
             while (--accountCount != 0) {
                 currentAccountIndex++;
-                watch(accountList.get(currentProxyIndex), getProxy(), videoList.size(), 0);
+                pool.execute(
+                    new WatchHandler(
+                        videoList,
+                        accountList.get(currentProxyIndex),
+                        getProxy(),
+                        videoList.size(),
+                        0
+                    )
+                );
             }
             time += 0.2;
         }
+        pool.shutdown();
     }
 
     private boolean isStopWatching() {
@@ -59,30 +73,6 @@ public class TaskRunner {
             currentProxyIndex = 0;
         }
         return proxyList.get(currentProxyIndex);
-    }
-
-    private void watch(final Account account, final Proxy proxy, final int count, final int delaySecond) {
-        final WatchVideo task = new WatchVideo();
-        int counter = count;
-        task.setProxy(proxy);
-        task.initBrowser();
-        task.setAccount(account);
-        task.login();
-        for (Video video : videoList) {
-            if (account.isWatched(video)) {
-                continue;
-            }
-
-            task.watchVideo(video);
-
-            if (--counter == 0) {
-                break;
-            }
-
-            waitSecond(delaySecond);
-        }
-        task.logout();
-        task.closeBrowser();
     }
 
     private void waitSecond(int second) {
