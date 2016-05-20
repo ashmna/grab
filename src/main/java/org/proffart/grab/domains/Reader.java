@@ -1,5 +1,7 @@
 package org.proffart.grab.domains;
 
+import org.proffart.grab.Log;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +19,7 @@ public class Reader<T extends AbstractDomain> {
 
     private List<T> list = new ArrayList<T>();
     private Class<T> domainClass;
+    private Log log = new Log();
 
     public Reader(final Class<T> domainClass) {
         this.domainClass = domainClass;
@@ -29,10 +32,14 @@ public class Reader<T extends AbstractDomain> {
                 addDomain(inFile.next());
             }
             inFile.close();
-            return list;
-        } catch (FileNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+        } catch (FileNotFoundException e) {
+            log.error("File doesn't exist, path: " + path);
+            log.error(e.getMessage());
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
             throw new RuntimeException(e);
         }
+
+        return list;
     }
 
     private void addDomain(final String s) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
