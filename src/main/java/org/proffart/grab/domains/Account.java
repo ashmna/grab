@@ -64,6 +64,6 @@ public class Account extends AbstractDomain {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "login: " + login + " , password: " + password;
     }
 }

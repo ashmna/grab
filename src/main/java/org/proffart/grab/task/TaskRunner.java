@@ -24,6 +24,7 @@ public class TaskRunner {
     private int currentProxyIndex = -1;
     private int currentAccountIndex = -1;
     private final ExecutorService pool;
+    private Log log = new Log();
 
     public TaskRunner(List<Proxy> proxyList, List<Account> accountList, List<Video> videoList) {
         this.proxyList = proxyList;
@@ -40,7 +41,7 @@ public class TaskRunner {
             waitSecond((int) (time * 500));
             accountCount = viewNum(time, accountList.size());
             if (accountCount == 0 ) {
-                Log.instance.error("Vahan algorithmt chi ashxatum !!!");
+                log.error("Vahan algorithmt chi ashxatum !!!");
             }
             while (accountCount-- != 0) {
                 currentAccountIndex++;
@@ -80,6 +81,7 @@ public class TaskRunner {
             return;
         }
         try {
+            log.info("Start waiting second: " + second);
             Thread.sleep(second * 1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

@@ -5,6 +5,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.proffart.grab.Browser;
+import org.proffart.grab.Log;
 import org.proffart.grab.domains.Account;
 import org.proffart.grab.domains.Proxy;
 import org.proffart.grab.domains.Video;
@@ -21,12 +22,13 @@ public class WatchVideo {
     private Proxy proxy;
     private Browser browser;
     private WebDriver driver;
+    private Log log = new Log();
 
-    public void setAccount(Account account) {
+    public void setAccount(final Account account) {
         this.account = account;
     }
 
-    public void setProxy(Proxy proxy) {
+    public void setProxy(final Proxy proxy) {
         this.proxy = proxy;
     }
 
@@ -44,6 +46,7 @@ public class WatchVideo {
     }
 
     public void login() {
+        log.info("Start login with account: " + account);
         driver.get("https://vk.com/login.php");
 
         final WebElement email = driver.findElement(By.id("email"));
@@ -60,22 +63,27 @@ public class WatchVideo {
     public void watchVideo(final Video video) {
         final String url = video.getUrl();
         final int second = video.getSecond();
+        log.info("Start watching video: "+ video);
         driver.get(url);
         // browser.waitForLoad();
         browser.checkCaptcha();
 
         if (driver.findElements(By.id("video_yt_player")).size() == 1) {
+            log.info("Detected iframe player, playing with clicking on player");
             driver.findElement(By.id("video_yt_player")).click();
         } else {
-            ((JavascriptExecutor) driver).executeScript("if(window.html5video && !window.html5video.playStarted) window.html5video.playVideo();");
+            log.warning("This video maybe not have auto play");
+            //((JavascriptExecutor) driver).executeScript("if(window.html5video && !window.html5video.playStarted) window.html5video.playVideo();");
         }
 
         browser.waitSecond(second);
         account.watched(video);
+        log.info("Video watched video: "+ url);
     }
 
     public void logout() {
         if (driver.findElements(By.id("logout_link")).size() == 1) {
+            log.info("logout");
             final WebElement logoutLink = driver.findElement(By.id("logout_link"));
             final String href = logoutLink.getAttribute("href");
             driver.get(href.replace("&amp;", "&"));

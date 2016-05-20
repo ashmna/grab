@@ -1,5 +1,6 @@
 package org.proffart.grab.task;
 
+import org.proffart.grab.Log;
 import org.proffart.grab.domains.Account;
 import org.proffart.grab.domains.Proxy;
 import org.proffart.grab.domains.Video;
@@ -19,6 +20,7 @@ public class WatchHandler implements Runnable {
     private int count;
     private int delaySecond;
     private List<Video> videoList;
+    private Log log = new Log();
 
     public WatchHandler(
             final List<Video> videoList,
@@ -59,11 +61,12 @@ public class WatchHandler implements Runnable {
         task.closeBrowser();
     }
 
-    private void waitSecond(int second) {
+    private void waitSecond(final int second) {
         if (second <= 0) {
             return;
         }
         try {
+            log.info("Start waiting second: " + second);
             Thread.sleep(second * 1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

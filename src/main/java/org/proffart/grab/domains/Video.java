@@ -45,6 +45,6 @@ public class Video extends AbstractDomain {
 
     @Override
     public String toString() {
-        return super.toString();
+        return url + " second: " + second;
     }
 }
