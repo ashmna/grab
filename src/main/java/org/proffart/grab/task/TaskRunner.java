@@ -24,7 +24,6 @@ public class TaskRunner {
     private int currentProxyIndex = -1;
     private int currentAccountIndex = -1;
     private final ExecutorService pool;
-    private Log log = new Log();
 
     public TaskRunner(List<Proxy> proxyList, List<Account> accountList, List<Video> videoList) {
         this.proxyList = proxyList;
@@ -34,57 +33,28 @@ public class TaskRunner {
     }
 
     public void startWatching() {
-        double time = 0;
-        int accountCount;
 
-        while (!isStopWatching()) {
-            waitSecond((int) (time * 500));
-            accountCount = viewNum(time, accountList.size());
-            if (accountCount == 0 ) {
-                log.error("Vahan algorithmt chi ashxatum !!!");
-            }
-            while (accountCount-- != 0) {
-                currentAccountIndex++;
-                pool.execute(
+        for (int i = 0; i < proxyList.size(); i++) {
+            pool.execute(
                     new WatchHandler(
-                        videoList,
-                        accountList.get(currentAccountIndex),
-                        getProxy(),
-                        videoList.size(),
-                        0
+                            videoList,
+                            getAccount(),
+                            proxyList.get(i),
+                            videoList.size(),
+                            (int) Math.exp((i + 1) * 5 / proxyList.size())
                     )
-                );
-            }
-            time += 0.2;
+            );
         }
+
         pool.shutdown();
     }
 
-    private boolean isStopWatching() {
-        return accountList.size() == 0 || currentAccountIndex == accountList.size();
+    private Account getAccount() {
+        currentAccountIndex++;
+        if (currentAccountIndex == accountList.size()) {
+            currentAccountIndex = 0;
+        }
+        return accountList.get(currentAccountIndex);
     }
 
-    private int viewNum(final double time, final int maxNum) {
-        return (int) (maxNum / 2 * Math.exp(time));
-    }
-
-    private Proxy getProxy() {
-        currentProxyIndex++;
-        if (currentProxyIndex == proxyList.size()) {
-            currentProxyIndex = 0;
-        }
-        return proxyList.get(currentProxyIndex);
-    }
-
-    private void waitSecond(int second) {
-        if (second <= 0) {
-            return;
-        }
-        try {
-            log.info("Start waiting second: " + second);
-            Thread.sleep(second * 1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

@@ -43,9 +43,9 @@ public class WatchHandler implements Runnable {
         task.setProxy(proxy);
         task.initBrowser();
         task.setAccount(account);
-        task.login();
+        // task.login();
         for (Video video : videoList) {
-            if (account.isWatched(video)) {
+            if (video.isUsedProxy(proxy)) {
                 continue;
             }
 
@@ -55,10 +55,12 @@ public class WatchHandler implements Runnable {
                 break;
             }
 
-            waitSecond(delaySecond);
         }
-        task.logout();
+
+        // task.logout();
         task.closeBrowser();
+
+        waitSecond(delaySecond);
     }
 
     private void waitSecond(final int second) {

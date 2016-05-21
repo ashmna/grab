@@ -29,6 +29,10 @@ public class App {
         if (videoFile == null || videoFile.isEmpty()) {
             videoFile = "video.txt";
         }
+        accountFile = "/home/all/Projects/java/grab/src/test/resources/account.txt";
+        proxyFile = "/home/all/Projects/java/grab/src/test/resources/proxy.txt";
+        videoFile = "/home/all/Projects/java/grab/src/test/resources/video.txt";
+
 
         final List<Proxy> proxyList = proxyReader.read(proxyFile);
         final List<Account> accountList = accountReader.read(accountFile);
@@ -36,7 +40,6 @@ public class App {
 
         TaskRunner runner = new TaskRunner(proxyList, accountList, videoList);
         runner.startWatching();
-        log.info("Done. Bye have a nice day.");
     }
 
 }

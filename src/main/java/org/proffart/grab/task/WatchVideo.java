@@ -61,6 +61,12 @@ public class WatchVideo {
     }
 
     public void watchVideo(final Video video) {
+
+//        log.info("proxy: "+proxy.getHost());
+//        browser.getHttpIp();
+//        browser.getHttpsIp();
+//        log.info("=================================");
+
         final String url = video.getUrl();
         final int second = video.getSecond();
         log.info("Start watching video: "+ video);
@@ -77,8 +83,9 @@ public class WatchVideo {
         }
 
         browser.waitSecond(second);
-        account.watched(video);
-        log.info("Video watched video: "+ url);
+        // account.watched(video);
+        video.proxyUsed(proxy, second);
+        log.info("Video watched video: "+ url + " duration:" + second);
     }
 
     public void logout() {

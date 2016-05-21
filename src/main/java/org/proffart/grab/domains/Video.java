@@ -1,5 +1,9 @@
 package org.proffart.grab.domains;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 /**
  * team ProffArt
  * author Ashot Mnatsakanyan
@@ -9,7 +13,10 @@ package org.proffart.grab.domains;
 public class Video extends AbstractDomain {
 
     private String url;
-    private int second;
+    private int secondMin;
+    private int secondMax;
+
+    private Map<Integer, Integer> usedProxyLis = new HashMap<Integer, Integer>();
 
     public Video() {
         super();
@@ -19,32 +26,33 @@ public class Video extends AbstractDomain {
         super(string);
         String[] str = string.split(" ");
         url = str[0];
-        second = Integer.parseInt(str[1]);
+        secondMin = Integer.parseInt(str[1]);
+        secondMax = Integer.parseInt(str[2]);
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public int getSecond() {
-        return second;
+        return secondMin + (int)(Math.random() * ((secondMax - secondMin) + 1));
     }
 
-    public void setSecond(int second) {
-        this.second = second;
+    public boolean isUsedProxy(Proxy proxy) {
+        return usedProxyLis.containsKey(proxy.hashCode());
+    }
+
+    public void proxyUsed(Proxy proxy, int second) {
+        usedProxyLis.put(proxy.hashCode(), second);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Video && url.equals(((Video) obj).url) & second == ((Video) obj).second;
+        return obj instanceof Video && url.equals(((Video) obj).url);
     }
 
     @Override
     public String toString() {
-        return url + " second: " + second;
+        return url + " second: " + secondMin + "-" + secondMax;
     }
 }

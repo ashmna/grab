@@ -28,9 +28,13 @@ public class Browser {
             String PROXY = host + ":" + port;
 
             org.openqa.selenium.Proxy proxy = new org.openqa.selenium.Proxy();
-            proxy.setHttpProxy(PROXY)
-                    .setFtpProxy(PROXY)
-                    .setSslProxy(PROXY);
+
+
+            proxy.setHttpProxy(PROXY);
+            proxy.setFtpProxy(PROXY);
+            proxy.setSslProxy(PROXY);
+
+
             DesiredCapabilities cap = new DesiredCapabilities();
             cap.setCapability(CapabilityType.PROXY, proxy);
 
@@ -42,11 +46,25 @@ public class Browser {
         }
     }
 
-    public String getMyIp() {
+    public String getHttpsIp() {
         driver.get("https://api.ipify.org/");
 
         WebElement text = driver.findElement(By.xpath("/html/body"));
         if (text != null) {
+            log.info("[HTTPS] IP: " + text.getText());
+            return text.getText();
+
+        }
+
+        return "";
+    }
+
+    public String getHttpIp() {
+        driver.get("http://api.ipify.org/");
+
+        WebElement text = driver.findElement(By.xpath("/html/body"));
+        if (text != null) {
+            log.info("[HTTP] IP: " + text.getText());
             return text.getText();
         }
 
