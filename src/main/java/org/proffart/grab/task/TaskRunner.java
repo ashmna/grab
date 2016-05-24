@@ -34,12 +34,12 @@ public class TaskRunner {
 
     public void startWatching() {
 
-        for (int i = 0; i < proxyList.size(); i++) {
+        for (int i = 0; i < accountList.size(); i++) {
             pool.execute(
                     new WatchHandler(
                             videoList,
-                            getAccount(),
-                            proxyList.get(i),
+                            accountList.get(i),
+                            getProxy(),
                             videoList.size(),
                             (int) Math.exp((i + 1) * 5 / proxyList.size())
                     )
@@ -47,6 +47,13 @@ public class TaskRunner {
         }
 
         pool.shutdown();
+    }
+    private Proxy getProxy() {
+        currentProxyIndex++;
+        if (currentProxyIndex == proxyList.size()) {
+            currentProxyIndex = 0;
+        }
+        return proxyList.get(currentProxyIndex);
     }
 
     private Account getAccount() {
