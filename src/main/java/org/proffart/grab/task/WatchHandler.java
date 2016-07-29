@@ -1,7 +1,6 @@
 package org.proffart.grab.task;
 
 import org.proffart.grab.Log;
-import org.proffart.grab.domains.Account;
 import org.proffart.grab.domains.Proxy;
 import org.proffart.grab.domains.Video;
 
@@ -15,7 +14,6 @@ import java.util.List;
  */
 public class WatchHandler implements Runnable {
 
-    private Account account;
     private Proxy proxy;
     private int count;
     private int delaySecond;
@@ -24,12 +22,10 @@ public class WatchHandler implements Runnable {
 
     public WatchHandler(
             final List<Video> videoList,
-            final Account account,
             final Proxy proxy,
             final int count,
             final int delaySecond
     ) {
-        this.account = account;
         this.proxy = proxy;
         this.count = count;
         this.delaySecond = delaySecond;
@@ -42,7 +38,6 @@ public class WatchHandler implements Runnable {
         int counter = count;
         task.setProxy(proxy);
         task.initBrowser();
-        task.setAccount(account);
         // task.login();
         for (Video video : videoList) {
             if (video.isUsedProxy(proxy)) {

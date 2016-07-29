@@ -19,15 +19,12 @@ import java.util.concurrent.Executors;
 public class TaskRunner {
 
     private List<Proxy> proxyList;
-    private List<Account> accountList;
     private List<Video> videoList;
-    private int currentProxyIndex = -1;
     private int currentAccountIndex = -1;
     private final ExecutorService pool;
 
-    public TaskRunner(List<Proxy> proxyList, List<Account> accountList, List<Video> videoList) {
+    public TaskRunner(List<Proxy> proxyList, List<Video> videoList) {
         this.proxyList = proxyList;
-        this.accountList = accountList;
         this.videoList = videoList;
         pool = Executors.newFixedThreadPool(Constants.PARALLEL_BROWSER_COUNT);
     }
@@ -38,7 +35,6 @@ public class TaskRunner {
             pool.execute(
                     new WatchHandler(
                             videoList,
-                            getAccount(),
                             proxyList.get(i),
                             videoList.size(),
                             (int) Math.exp((i + 1) * 5 / proxyList.size())
@@ -47,14 +43,6 @@ public class TaskRunner {
         }
 
         pool.shutdown();
-    }
-
-    private Account getAccount() {
-        currentAccountIndex++;
-        if (currentAccountIndex == accountList.size()) {
-            currentAccountIndex = 0;
-        }
-        return accountList.get(currentAccountIndex);
     }
 
 }

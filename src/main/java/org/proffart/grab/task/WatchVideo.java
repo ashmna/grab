@@ -24,9 +24,6 @@ public class WatchVideo {
     private WebDriver driver;
     private Log log = new Log();
 
-    public void setAccount(final Account account) {
-        this.account = account;
-    }
 
     public void setProxy(final Proxy proxy) {
         this.proxy = proxy;
