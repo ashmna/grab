@@ -80,8 +80,8 @@ public class WatchVideo {
         }
 
         browser.waitSecond(second);
-        // account.watched(video);
-        video.proxyUsed(proxy, second);
+         account.watched(video);
+//        video.proxyUsed(proxy, second);
         log.info("Video watched video: "+ url + " duration:" + second);
     }
 
