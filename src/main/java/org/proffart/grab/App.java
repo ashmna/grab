@@ -1,6 +1,5 @@
 package org.proffart.grab;
 
-import org.proffart.grab.domains.Account;
 import org.proffart.grab.domains.Proxy;
 import org.proffart.grab.domains.Reader;
 import org.proffart.grab.domains.Video;

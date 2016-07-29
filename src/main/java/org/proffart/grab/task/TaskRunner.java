@@ -1,8 +1,6 @@
 package org.proffart.grab.task;
 
 import org.proffart.grab.Constants;
-import org.proffart.grab.Log;
-import org.proffart.grab.domains.Account;
 import org.proffart.grab.domains.Proxy;
 import org.proffart.grab.domains.Video;
 
